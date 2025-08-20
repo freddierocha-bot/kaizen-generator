@@ -24,69 +24,96 @@ export const generatePPTX = async (req, res) => {
     // Configurações globais
     pptx.layout = 'LAYOUT_16x9';
 
-    // ===== SLIDE ÚNICO - TEMPLATE KAIZEN =====
+    // ===== SLIDE ÚNICO - TEMPLATE KAIZEN EXATO =====
     let slide = pptx.addSlide();
     
     // Background branco
     slide.background = { color: 'FFFFFF' };
     
-    // CABEÇALHO - Título principal
-    slide.addText(titulo, {
-      x: 0.5,
-      y: 0.3,
-      w: 12,
-      h: 0.8,
-      fontSize: 28,
+    // ===== CABEÇALHO COM BORDAS AZUIS =====
+    // Borda azul superior
+    slide.addShape(pptx.ShapeType.rect, {
+      x: 0.2,
+      y: 0.2,
+      w: 12.6,
+      h: 0.1,
+      fill: { color: '4472C4' }
+    });
+    
+    // Bordas azuis laterais
+    slide.addShape(pptx.ShapeType.rect, {
+      x: 0.2,
+      y: 0.2,
+      w: 0.1,
+      h: 1.3,
+      fill: { color: '4472C4' }
+    });
+    
+    slide.addShape(pptx.ShapeType.rect, {
+      x: 12.7,
+      y: 0.2,
+      w: 0.1,
+      h: 1.3,
+      fill: { color: '4472C4' }
+    });
+    
+    // Título principal
+    slide.addText(`(TÍTULO KAIZEN ${titulo.toUpperCase()})`, {
+      x: 0.4,
+      y: 0.4,
+      w: 12.2,
+      h: 0.6,
+      fontSize: 18,
       bold: true,
-      color: '1F4E79',
+      color: '000000',
       align: 'center',
       fontFace: 'Calibri'
     });
     
     // Setor
-    slide.addText(`(${setor})`, {
-      x: 0.5,
-      y: 1.0,
-      w: 12,
-      h: 0.5,
-      fontSize: 16,
-      color: '1F4E79',
-      align: 'center',
+    slide.addText(`(SETOR ${setor.toUpperCase()})`, {
+      x: 0.4,
+      y: 0.9,
+      w: 12.2,
+      h: 0.4,
+      fontSize: 12,
+      color: '000000',
+      align: 'left',
       fontFace: 'Calibri'
     });
     
-    // Linha separadora azul
+    // Linha separadora azul principal
     slide.addShape(pptx.ShapeType.rect, {
-      x: 0.5,
-      y: 1.6,
-      w: 12,
+      x: 0.2,
+      y: 1.4,
+      w: 12.6,
       h: 0.1,
       fill: { color: '4472C4' }
     });
 
-    // ===== SEÇÃO ANTES E DEPOIS =====
+    // ===== SEÇÃO ANTES E DEPOIS COM CAIXAS AZUIS =====
     
-    // Título "COMO ERA?"
-    slide.addText('COMO ERA?', {
-      x: 0.8,
-      y: 2.0,
-      w: 5,
-      h: 0.5,
-      fontSize: 14,
-      bold: true,
-      color: '1F4E79',
-      align: 'center',
-      fontFace: 'Calibri'
+    // Caixa ANTES com borda azul
+    slide.addShape(pptx.ShapeType.rect, {
+      x: 0.7,
+      y: 1.8,
+      w: 3.6,
+      h: 2.8,
+      fill: { color: 'FFFFFF' },
+      line: { color: '4472C4', width: 3 }
     });
     
-    // Caixa de imagem ANTES
-    slide.addShape(pptx.ShapeType.rect, {
-      x: 0.8,
+    // Texto dentro da caixa ANTES
+    slide.addText('Aqui vem a\nfoto o antes\n— dentro do\nquadrado\nazul.', {
+      x: 0.9,
       y: 2.5,
-      w: 5,
-      h: 3,
-      fill: { color: 'F2F2F2' },
-      line: { color: '4472C4', width: 2 }
+      w: 3.2,
+      h: 1.5,
+      fontSize: 14,
+      color: '000000',
+      align: 'center',
+      valign: 'middle',
+      fontFace: 'Calibri'
     });
     
     // Adicionar imagem ANTES se existir
@@ -94,48 +121,48 @@ export const generatePPTX = async (req, res) => {
       const imageAntes = req.files.fotoAntes[0];
       slide.addImage({
         data: `data:${imageAntes.mimetype};base64,${imageAntes.buffer.toString('base64')}`,
-        x: 1.0,
-        y: 2.7,
-        w: 4.6,
+        x: 0.8,
+        y: 1.9,
+        w: 3.4,
         h: 2.6,
         sizing: { type: 'contain' }
       });
     }
     
-    // Texto "antes" abaixo da imagem
-    slide.addText('antes', {
-      x: 0.8,
-      y: 5.7,
-      w: 5,
+    // Título "COMO ERA?"
+    slide.addText('COMO ERA?', {
+      x: 0.7,
+      y: 4.7,
+      w: 3.6,
       h: 0.4,
       fontSize: 12,
-      italic: true,
-      color: '666666',
-      align: 'center',
-      fontFace: 'Calibri'
-    });
-    
-    // Título "O QUE FOI FEITO?"
-    slide.addText('O QUE FOI FEITO?', {
-      x: 7.2,
-      y: 2.0,
-      w: 5,
-      h: 0.5,
-      fontSize: 14,
       bold: true,
-      color: '1F4E79',
+      color: '000000',
       align: 'center',
       fontFace: 'Calibri'
     });
     
-    // Caixa de imagem DEPOIS
+    // Caixa DEPOIS com borda azul
     slide.addShape(pptx.ShapeType.rect, {
-      x: 7.2,
+      x: 4.8,
+      y: 1.8,
+      w: 3.6,
+      h: 2.8,
+      fill: { color: 'FFFFFF' },
+      line: { color: '4472C4', width: 3 }
+    });
+    
+    // Texto dentro da caixa DEPOIS
+    slide.addText('Aqui vem a foto\ndo depois —\ndentro do\nquadrado azul', {
+      x: 5.0,
       y: 2.5,
-      w: 5,
-      h: 3,
-      fill: { color: 'F2F2F2' },
-      line: { color: '4472C4', width: 2 }
+      w: 3.2,
+      h: 1.5,
+      fontSize: 14,
+      color: '000000',
+      align: 'center',
+      valign: 'middle',
+      fontFace: 'Calibri'
     });
     
     // Adicionar imagem DEPOIS se existir
@@ -143,51 +170,51 @@ export const generatePPTX = async (req, res) => {
       const imageDepois = req.files.fotoDepois[0];
       slide.addImage({
         data: `data:${imageDepois.mimetype};base64,${imageDepois.buffer.toString('base64')}`,
-        x: 7.4,
-        y: 2.7,
-        w: 4.6,
+        x: 4.9,
+        y: 1.9,
+        w: 3.4,
         h: 2.6,
         sizing: { type: 'contain' }
       });
     }
     
-    // Texto "depois" abaixo da imagem
-    slide.addText('depois', {
-      x: 7.2,
-      y: 5.7,
-      w: 5,
+    // Título "O QUE FOI FEITO?"
+    slide.addText('O QUE FOI FEITO?', {
+      x: 4.8,
+      y: 4.7,
+      w: 3.6,
       h: 0.4,
       fontSize: 12,
-      italic: true,
-      color: '666666',
+      bold: true,
+      color: '000000',
       align: 'center',
       fontFace: 'Calibri'
     });
 
-    // ===== SEÇÃO DESCRIÇÕES =====
+    // ===== DESCRIÇÕES EMBAIXO DAS CAIXAS =====
     
-    // Descrição do ANTES (lado esquerdo)
-    slide.addText(situacaoAntes, {
-      x: 0.8,
-      y: 6.3,
-      w: 5,
+    // Descrição do ANTES
+    slide.addText(`(Descrição do antes\n${situacaoAntes})`, {
+      x: 0.7,
+      y: 5.2,
+      w: 3.6,
       h: 1.5,
-      fontSize: 10,
-      color: '333333',
+      fontSize: 9,
+      color: '000000',
       align: 'left',
       valign: 'top',
       fontFace: 'Calibri',
       wrap: true
     });
     
-    // Descrição do DEPOIS (lado direito)
-    slide.addText(situacaoDepois, {
-      x: 7.2,
-      y: 6.3,
-      w: 5,
+    // Descrição do DEPOIS
+    slide.addText(`(Descrição do depois\n${situacaoDepois})`, {
+      x: 4.8,
+      y: 5.2,
+      w: 3.6,
       h: 1.5,
-      fontSize: 10,
-      color: '333333',
+      fontSize: 9,
+      color: '000000',
       align: 'left',
       valign: 'top',
       fontFace: 'Calibri',
@@ -198,87 +225,100 @@ export const generatePPTX = async (req, res) => {
     
     // Título "CITE GANHOS / MELHORIAS"
     slide.addText('CITE GANHOS / MELHORIAS', {
-      x: 13.0,
-      y: 2.0,
-      w: 3.5,
-      h: 0.5,
-      fontSize: 12,
+      x: 9.0,
+      y: 1.8,
+      w: 3.8,
+      h: 0.4,
+      fontSize: 11,
       bold: true,
-      color: '1F4E79',
+      color: '000000',
       align: 'left',
       fontFace: 'Calibri'
     });
     
-    // Lista de ganhos
-    const ganhosLines = ganhos.split('\n').slice(0, 5); // Máximo 5 linhas
+    // Lista de ganhos com setas
+    const ganhosLines = ganhos.split('\n').slice(0, 4);
     ganhosLines.forEach((linha, index) => {
-      slide.addText(`▶ ${linha}`, {
-        x: 13.0,
-        y: 2.6 + (index * 0.3),
-        w: 3.5,
-        h: 0.3,
-        fontSize: 9,
-        color: '333333',
+      slide.addText(`▶ Ganhoossss`, {
+        x: 9.1,
+        y: 2.3 + (index * 0.25),
+        w: 3.6,
+        h: 0.23,
+        fontSize: 8,
+        color: '000000',
         align: 'left',
         fontFace: 'Calibri'
       });
     });
     
-    // Investimento
+    // Texto adicional de ganhos
+    slide.addText(`▶ ${ganhos.substring(0, 100)}...`, {
+      x: 9.1,
+      y: 3.3,
+      w: 3.6,
+      h: 0.8,
+      fontSize: 8,
+      color: '000000',
+      align: 'left',
+      fontFace: 'Calibri',
+      wrap: true
+    });
+    
+    // Investimentos
     slide.addText('INVESTIMENTOS', {
-      x: 13.0,
+      x: 9.0,
       y: 4.3,
-      w: 3.5,
-      h: 0.4,
-      fontSize: 11,
+      w: 3.8,
+      h: 0.3,
+      fontSize: 10,
       bold: true,
-      color: '1F4E79',
+      color: '000000',
       align: 'center',
       fontFace: 'Calibri'
     });
     
     slide.addText(investimento, {
-      x: 13.0,
-      y: 4.8,
-      w: 3.5,
-      h: 0.6,
-      fontSize: 10,
-      color: '333333',
+      x: 9.0,
+      y: 4.7,
+      w: 3.8,
+      h: 0.5,
+      fontSize: 9,
+      color: '000000',
       align: 'center',
       fontFace: 'Calibri'
     });
     
     // Sugestão/Execução
     slide.addText('SUGESTÃO / EXECUÇÃO:', {
-      x: 13.0,
-      y: 5.6,
-      w: 3.5,
-      h: 0.4,
-      fontSize: 11,
+      x: 9.0,
+      y: 5.4,
+      w: 3.8,
+      h: 0.3,
+      fontSize: 10,
       bold: true,
-      color: '1F4E79',
-      align: 'center',
+      color: '000000',
+      align: 'left',
       fontFace: 'Calibri'
     });
     
     slide.addText(`Idealizador - ${idealizador}`, {
-      x: 13.0,
-      y: 6.1,
-      w: 3.5,
-      h: 0.4,
+      x: 9.0,
+      y: 5.8,
+      w: 3.8,
+      h: 0.3,
       fontSize: 9,
-      color: '333333',
+      color: '000000',
       align: 'left',
       fontFace: 'Calibri'
     });
     
     slide.addText(`Executante - ${executante}`, {
-      x: 13.0,
-      y: 6.5,
-      w: 3.5,
-      h: 0.4,
+      x: 9.0,
+      y: 6.1,
+      w: 3.8,
+      h: 0.3,
       fontSize: 9,
-      color: '333333',
+      color: '000000',
       align: 'left',
       fontFace: 'Calibri'
     });
@@ -287,19 +327,19 @@ export const generatePPTX = async (req, res) => {
     
     // Caixa azul "Foco do Kaizen"
     slide.addShape(pptx.ShapeType.rect, {
-      x: 0.5,
-      y: 8.0,
-      w: 2,
-      h: 0.8,
+      x: 0.2,
+      y: 7.0,
+      w: 1.5,
+      h: 1.0,
       fill: { color: '4472C4' }
     });
     
     slide.addText('Foco do\nKaizen', {
-      x: 0.5,
-      y: 8.0,
-      w: 2,
-      h: 0.8,
-      fontSize: 11,
+      x: 0.2,
+      y: 7.0,
+      w: 1.5,
+      h: 1.0,
+      fontSize: 10,
       bold: true,
       color: 'FFFFFF',
       align: 'center',
@@ -309,20 +349,20 @@ export const generatePPTX = async (req, res) => {
     
     // Lista de melhorias (lado esquerdo)
     const melhorias1 = [
-      'Aumentar a produtividade em rotinas de maior valor agregado.',
-      'Elevar o grau no que no fim do processo',
-      'Aumentar a eficácia dos ativos operacionais.',
+      'Aumentar a participação em nichos de maior valor agregado;',
+      'Elevar o ganho operacional de mix de produtos',
+      'Aumentar a eficácia dos ativos operacionais;',
       'Aumentar a produtividade dos ativos operacionais'
     ];
     
     melhorias1.forEach((item, index) => {
       slide.addText(`• ${item}`, {
-        x: 3.0,
-        y: 8.2 + (index * 0.25),
+        x: 1.9,
+        y: 7.1 + (index * 0.22),
         w: 4.5,
-        h: 0.25,
+        h: 0.2,
         fontSize: 8,
-        color: '333333',
+        color: '000000',
         align: 'left',
         fontFace: 'Calibri'
       });
@@ -330,20 +370,20 @@ export const generatePPTX = async (req, res) => {
     
     // Lista de melhorias (lado direito)
     const melhorias2 = [
-      'Reduzir a necessidade de capital de giro via operações',
+      'Reduzir a necessidade de capital de giro na operação;',
       'Reduzir financiamento via capital de terceiros',
-      'Fortalecer as práticas de perdas sustentáveis.',
+      'Fortalecer as práticas de gestão sustentáveis;',
       'Aumentar o engajamento da força de trabalho'
     ];
     
     melhorias2.forEach((item, index) => {
       slide.addText(`• ${item}`, {
-        x: 8.0,
-        y: 8.2 + (index * 0.25),
+        x: 6.8,
+        y: 7.1 + (index * 0.22),
         w: 4.5,
-        h: 0.25,
+        h: 0.2,
         fontSize: 8,
-        color: '333333',
+        color: '000000',
         align: 'left',
         fontFace: 'Calibri'
       });
