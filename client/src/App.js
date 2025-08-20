@@ -50,7 +50,7 @@ export default function App() {
     data.append('executante', formData.executante);
 
     try {
-      const response = await fetch('http://localhost:3001/api/generate-pptx', {
+      const response = await fetch('https://kaizen-generator-sweg.onrender.com/api/generate-pptx', {
         method: 'POST',
         body: data,
       });
