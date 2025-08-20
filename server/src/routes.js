@@ -20,6 +20,23 @@ const upload = multer({
   }
 });
 
+// Rota de health check
+router.get('/', (req, res) => {
+  res.json({ 
+    status: 'OK', 
+    message: 'Kaizen Generator API is running',
+    timestamp: new Date().toISOString()
+  });
+});
+
+router.get('/health', (req, res) => {
+  res.json({ 
+    status: 'healthy', 
+    service: 'kaizen-generator-api',
+    timestamp: new Date().toISOString()
+  });
+});
+
 // Rota para gerar PPTX
 router.post('/generate-pptx', upload.fields([
   { name: 'fotoAntes', maxCount: 1 },
