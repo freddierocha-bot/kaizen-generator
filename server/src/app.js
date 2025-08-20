@@ -26,7 +26,9 @@ const keyPath = path.join(sslDir, 'key.pem');
 
 // Middlewares
 app.use(cors({
-  origin: process.env.CLIENT_URL || ['http://localhost:3000', 'https://localhost:3000'],
+  origin: process.env.NODE_ENV === 'production' 
+    ? process.env.FRONTEND_URL || true 
+    : ['http://localhost:3000', 'https://localhost:3000'],
   credentials: true
 }));
 
