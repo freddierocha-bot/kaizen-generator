@@ -381,7 +381,13 @@ export const generatePPTX = async (req, res) => {
     
     // Configurar headers para download
     res.setHeader('Content-Type', 'application/vnd.openxmlformats-officedocument.presentationml.presentation');
-    res.setHeader('Content-Disposition', `attachment; filename="${titulo.replace(/[^a-zA-Z0-9]/g, '_')}.pptx"`); // Fixed filename
+    
+    // Gerar filename personalizado
+    const cleanTitle = titulo.replace(/[^a-zA-Z0-9]/g, '_');
+    const finalFilename = `${cleanTitle}.pptx`;
+    console.log('Título:', titulo, '-> Filename:', finalFilename);
+
+    res.setHeader('Content-Disposition', `attachment; filename="${finalFilename}"`);
     res.setHeader('Content-Length', pptxBuffer.length);
     
     // Enviar o arquivo
